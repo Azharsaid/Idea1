@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qeema Swap | Trade-Only App Concept for Jordan</title>
+  <style>
+    :root{
+      --bg:#f7f8fb;
+      --card:#ffffff;
+      --ink:#172033;
+      --muted:#687084;
+      --line:#e7eaf0;
+      --primary:#2b6f6a;
+      --primary2:#1f4f4b;
+      --accent:#f3b23c;
+      --soft:#e9f5f3;
+      --danger:#fff0f0;
+      --good:#edf8ef;
+      --warn:#fff7e8;
+      --shadow:0 14px 40px rgba(22,31,53,.08);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, "Segoe UI", Tahoma, Arial, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(43,111,106,.16), transparent 34rem),
+        radial-gradient(circle at top right, rgba(243,178,60,.18), transparent 30rem),
+        var(--bg);
+      line-height:1.55;
+    }
+    a{color:var(--primary);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1180px;margin:auto;padding:24px}
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:30px;
+      background:linear-gradient(135deg,#163c39,#2b6f6a 60%,#f3b23c);
+      color:white;
+      padding:54px 42px;
+      box-shadow:var(--shadow);
+    }
+    .hero:after{
+      content:"";
+      position:absolute;
+      width:420px;height:420px;
+      right:-120px;top:-120px;
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+    }
+    .badge{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.22);
+      padding:8px 13px;
+      border-radius:999px;
+      font-size:14px;
+      backdrop-filter: blur(10px);
+    }
+    h1{
+      font-size:clamp(34px,6vw,72px);
+      line-height:1.02;
+      margin:22px 0 14px;
+      letter-spacing:-2.2px;
+    }
+    .hero p{max-width:780px;font-size:18px;color:rgba(255,255,255,.9)}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      border-radius:999px;padding:12px 18px;
+      border:1px solid transparent;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .btn.primary{background:white;color:var(--primary2)}
+    .btn.secondary{background:rgba(255,255,255,.12);color:white;border-color:rgba(255,255,255,.25)}
+    .btn:hover{transform:translateY(-1px);text-decoration:none}
+    .nav{
+      position:sticky;top:0;z-index:10;
+      background:rgba(247,248,251,.86);
+      backdrop-filter: blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{
+      max-width:1180px;margin:auto;padding:10px 24px;
+      display:flex;gap:8px;overflow:auto;
+    }
+    .nav a{
+      white-space:nowrap;
+      font-size:14px;
+      font-weight:700;
+      color:var(--muted);
+      padding:9px 12px;
+      border-radius:999px;
+    }
+    .nav a:hover{background:var(--soft);color:var(--primary);text-decoration:none}
+    section{padding:28px 0}
+    .section-head{
+      display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+      margin-bottom:18px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size:clamp(26px,4vw,42px);
+      line-height:1.1;
+      letter-spacing:-1px;
+    }
+    .section-head p{margin:8px 0 0;color:var(--muted);max-width:720px}
+    .grid{display:grid;gap:18px}
+    .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+    .card h3{margin:0 0 10px;font-size:21px}
+    .card p{color:var(--muted);margin:0}
+    .metric{
+      font-size:32px;
+      font-weight:900;
+      color:var(--primary);
+      line-height:1.1;
+      margin-bottom:7px;
+    }
+    .pill{
+      display:inline-block;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.02em;
+      padding:6px 10px;
+      border-radius:999px;
+      background:var(--soft);
+      color:var(--primary2);
+      margin-bottom:12px;
+    }
+    .pill.warn{background:var(--warn);color:#7a5100}
+    .pill.good{background:var(--good);color:#216232}
+    .pill.danger{background:var(--danger);color:#9b2424}
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      background:white;
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+    th,td{
+      text-align:left;
+      padding:14px 15px;
+      border-bottom:1px solid var(--line);
+      vertical-align:top;
+      font-size:14px;
+    }
+    th{background:#f2f5f7;color:#3e485a;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+    tr:last-child td{border-bottom:none}
+    .highlight{
+      background:linear-gradient(180deg,#fff,var(--soft));
+      border:1px solid #cbe4e0;
+    }
+    .flow{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:12px;
+      counter-reset:step;
+    }
+    .step{
+      position:relative;
+      background:white;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:18px;
+      min-height:145px;
+      box-shadow:var(--shadow);
+    }
+    .step:before{
+      counter-increment:step;
+      content:counter(step);
+      display:grid;place-items:center;
+      width:32px;height:32px;
+      background:var(--primary);
+      color:white;
+      border-radius:10px;
+      font-weight:900;
+      margin-bottom:12px;
+    }
+    .step h4{margin:0 0 6px}
+    .step p{font-size:14px;color:var(--muted);margin:0}
+    .phone{
+      max-width:340px;margin:auto;
+      background:#101522;
+      padding:12px;
+      border-radius:34px;
+      box-shadow:0 24px 60px rgba(0,0,0,.20);
+    }
+    .screen{
+      background:#fbfcfe;
+      min-height:620px;
+      border-radius:26px;
+      padding:18px;
+      overflow:hidden;
+    }
+    .appbar{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .logo{
+      display:flex;align-items:center;gap:9px;font-weight:900;color:var(--primary2)
+    }
+    .logo-mark{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      color:white;background:linear-gradient(135deg,var(--primary),var(--accent));
+    }
+    .search{
+      background:#eef2f5;border-radius:16px;padding:12px;color:#8891a2;font-size:13px;margin-bottom:14px
+    }
+    .item-card{
+      background:white;border:1px solid var(--line);
+      border-radius:18px;padding:13px;margin-bottom:12px;
+      box-shadow:0 8px 20px rgba(22,31,53,.06)
+    }
+    .thumb{
+      height:100px;border-radius:14px;background:
+        linear-gradient(135deg,rgba(43,111,106,.15),rgba(243,178,60,.25)),
+        repeating-linear-gradient(45deg,#f2f4f7,#f2f4f7 10px,#e9edf2 10px,#e9edf2 20px);
+      margin-bottom:10px;
+    }
+    .item-title{font-weight:900}
+    .item-meta{font-size:12px;color:var(--muted);margin-top:3px}
+    .swap-box{
+      display:flex;align-items:center;justify-content:space-between;gap:8px;
+      padding:10px;margin-top:10px;border-radius:14px;background:var(--soft);font-size:13px;font-weight:800;color:var(--primary2)
+    }
+    .notice{
+      padding:16px 18px;
+      border-radius:18px;
+      background:#fff7e8;
+      border:1px solid #ffe0a5;
+      color:#6c4a04;
+    }
+    .success{
+      padding:16px 18px;
+      border-radius:18px;
+      background:#edf8ef;
+      border:1px solid #c9eccc;
+      color:#235d2d;
+    }
+    .dangerbox{
+      padding:16px 18px;
+      border-radius:18px;
+      background:#fff0f0;
+      border:1px solid #ffd0d0;
+      color:#842424;
+    }
+    .list{margin:0;padding-left:20px;color:var(--muted)}
+    .list li{margin:7px 0}
+    .rtl{
+      direction:rtl;
+      text-align:right;
+      font-family:"Segoe UI", Tahoma, Arial, sans-serif;
+    }
+    .footer{
+      margin-top:28px;
+      color:var(--muted);
+      font-size:13px;
+      border-top:1px solid var(--line);
+      padding-top:18px;
+    }
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+    .tab{
+      border:1px solid var(--line);background:white;color:var(--muted);
+      padding:10px 13px;border-radius:999px;font-weight:800;cursor:pointer;
+    }
+    .tab.active{background:var(--primary);color:white;border-color:var(--primary)}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+    .mini{
+      font-size:12px;color:var(--muted)
+    }
+    .tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .tag{background:#f1f3f6;border:1px solid #e3e7ee;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;color:#4f596b}
+    @media (max-width:900px){
+      .grid.cols-2,.grid.cols-3,.grid.cols-4{grid-template-columns:1fr}
+      .flow{grid-template-columns:1fr}
+      .hero{padding:38px 24px}
+      .section-head{display:block}
+      th,td{font-size:13px;padding:12px}
+      .wide-table{overflow:auto}
+    }
+    @media print{
+      .nav,.hero-actions,.tabs{display:none}
+      body{background:white}
+      .card,table,.hero,.step{box-shadow:none}
+      .hero{color:white}
+      section{page-break-inside:avoid}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <span class="badge">Jordan MVP Business Concept • Trade-only • Controlled delivery</span>
+      <h1>Qeema Swap</h1>
+      <p>
+        A trust-first Jordanian marketplace where users exchange items directly with other items.
+        No selling, no cash deals, and no user-to-user meetups. Every accepted trade is collected,
+        checked, and delivered through your own delivery operation.
+      </p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#mvp">View MVP Features</a>
+        <a class="btn secondary" href="#cost">Estimated Cost</a>
+        <a class="btn secondary" href="#profit">Profit Model</a>
+      </div>
+    </header>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#concept">Concept</a>
+      <a href="#rules">Core Rules</a>
+      <a href="#flow">User Flow</a>
+      <a href="#mvp">Features</a>
+      <a href="#delivery">Delivery Model</a>
+      <a href="#profit">Profit</a>
+      <a href="#cost">Cost</a>
+      <a href="#marketing">Marketing</a>
+      <a href="#risks">Risks</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="concept">
+      <div class="section-head">
+        <div>
+          <h2>The app idea in one sentence</h2>
+          <p>Qeema Swap turns unused items into exchange value, while the platform controls delivery and safety.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card highlight">
+          <span class="pill good">Positioning</span>
+          <h3>Trade-only marketplace</h3>
+          <p>Users do not sell items and do not add cash. They only trade item vs item through structured offers.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Trust angle</span>
+          <h3>No direct meetups</h3>
+          <p>The app removes the biggest friction point in peer-to-peer marketplaces: arranging safe physical meetings.</p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Revenue angle</span>
+          <h3>Delivery-led income</h3>
+          <p>Since every trade requires your delivery service, delivery fees and protection fees become core monetization.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="section-head">
+        <div>
+          <h2>Updated business rules</h2>
+          <p>These rules reflect your requested changes: no selling, no cash, delivery only from your side.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Allowed</h3>
+          <ul class="list">
+            <li>Item-for-item trade only.</li>
+            <li>Users can post items they no longer want.</li>
+            <li>Users can suggest what they want in exchange.</li>
+            <li>Users can offer one item or a bundle of multiple items.</li>
+            <li>Your team handles pickup, item check, and delivery.</li>
+            <li>Users can pay delivery, protection, verification, or listing visibility fees.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Not allowed</h3>
+          <ul class="list">
+            <li>No selling option.</li>
+            <li>No cash top-up between users.</li>
+            <li>No “cash-only” offer.</li>
+            <li>No user-to-user meeting option.</li>
+            <li>No exchanging restricted or unsafe categories.</li>
+            <li>No off-app contact sharing inside chat.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notice" style="margin-top:18px;">
+        <strong>Key strategic implication:</strong> removing cash makes the app safer and cleaner, but it also makes matching harder.
+        To solve this, the MVP should support bundles, wishlists, match score, and flexible “acceptable categories.”
+      </div>
+    </section>
+
+    <section id="flow">
+      <div class="section-head">
+        <div>
+          <h2>How the trade should work</h2>
+          <p>A controlled end-to-end flow makes the app easier to trust and easier to monetize.</p>
+        </div>
+      </div>
+
+      <div class="flow">
+        <div class="step">
+          <h4>Post item</h4>
+          <p>User uploads photos, brand, condition, estimated value, and wanted item categories.</p>
+        </div>
+        <div class="step">
+          <h4>Receive offers</h4>
+          <p>Other users offer items from their own listed inventory. No cash offers are allowed.</p>
+        </div>
+        <div class="step">
+          <h4>Accept trade</h4>
+          <p>Both users confirm the exchange and pay platform delivery or protection fees.</p>
+        </div>
+        <div class="step">
+          <h4>Pickup & check</h4>
+          <p>Your delivery team collects both items and performs basic visual condition checks.</p>
+        </div>
+        <div class="step">
+          <h4>Deliver & rate</h4>
+          <p>Items are delivered to both sides. Users confirm receipt and rate each other.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="mvp">
+      <div class="section-head">
+        <div>
+          <h2>MVP feature list</h2>
+          <p>Build the smallest version that can prove whether Jordanians will repeatedly exchange items through a controlled delivery model.</p>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('must')">Must-have MVP</button>
+        <button class="tab" onclick="showTab('better')">Make it better</button>
+        <button class="tab" onclick="showTab('later')">Phase 2 / advanced</button>
+      </div>
+
+      <div id="must" class="tab-panel active">
+        <div class="wide-table">
+          <table>
+            <thead><tr><th>Module</th><th>Required features</th><th>Why it matters</th></tr></thead>
+            <tbody>
+              <tr><td>Registration</td><td>Email login, mobile login, Google/Apple sign-in, password reset</td><td>Fast onboarding and recoverable identity</td></tr>
+              <tr><td>User profile</td><td>Name, photo, city/area, verification status, ratings, completed trades</td><td>Trust and reputation</td></tr>
+              <tr><td>Item posting</td><td>Photos, item title, category, brand, condition, description, estimated value</td><td>Structured listings improve matching</td></tr>
+              <tr><td>Condition scale</td><td>New/sealed, like new, excellent, good, fair, for parts</td><td>Better than only “new” or “used”</td></tr>
+              <tr><td>Wishlist</td><td>User selects desired categories/items they would accept</td><td>Enables smart matching</td></tr>
+              <tr><td>Offer engine</td><td>Offer one item or a bundle; accept, reject, counter with another item</td><td>Core of trade-only model</td></tr>
+              <tr><td>Chat</td><td>In-app messaging with safety filters and no phone number sharing</td><td>Keeps trades inside the platform</td></tr>
+              <tr><td>Delivery booking</td><td>Pickup address, delivery address, available time windows, delivery fee payment</td><td>Because delivery is exclusive from your side</td></tr>
+              <tr><td>Admin panel</td><td>Users, listings, reports, delivery status, prohibited item review</td><td>Operational control from day one</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="better" class="tab-panel">
+        <div class="grid cols-3">
+          <div class="card"><h3>Match score</h3><p>Shows how close two users’ items are in estimated value, category, and preference fit.</p></div>
+          <div class="card"><h3>Bundle trade</h3><p>Allows “2 items vs 1 item” to solve value gaps without cash.</p></div>
+          <div class="card"><h3>Item inspection photos</h3><p>Delivery team uploads photos before final handover to reduce disputes.</p></div>
+          <div class="card"><h3>Trade protection</h3><p>Optional paid layer covering dispute handling and return delivery.</p></div>
+          <div class="card"><h3>AI title helper</h3><p>Rewrites item titles and descriptions to improve listing quality.</p></div>
+          <div class="card"><h3>Prohibited-item filter</h3><p>Flags risky items before publication using keywords and admin approval.</p></div>
+        </div>
+      </div>
+
+      <div id="later" class="tab-panel">
+        <div class="grid cols-3">
+          <div class="card"><h3>Verified ID badge</h3><p>Optional stronger verification for high-value traders.</p></div>
+          <div class="card"><h3>Warehouse hub</h3><p>Items can be temporarily held for inspection or grouped deliveries.</p></div>
+          <div class="card"><h3>Corporate partnerships</h3><p>Brands can sponsor categories or offer recycling/upcycling campaigns.</p></div>
+          <div class="card"><h3>Dynamic delivery pricing</h3><p>Pricing based on distance, item size, and urgency.</p></div>
+          <div class="card"><h3>Re-commerce analytics</h3><p>Dashboard showing hot categories, trade velocity, and high-demand items.</p></div>
+          <div class="card"><h3>Arabic-first experience</h3><p>Fully localized Jordanian Arabic tone and bilingual listing fields.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <h2>Example listing: pen for wallet</h2>
+          <p>This shows how a simple item should appear in the app without selling or cash top-up.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-2">
+        <div class="phone">
+          <div class="screen">
+            <div class="appbar">
+              <div class="logo"><span class="logo-mark">Q</span> Qeema</div>
+              <span class="mini">Amman</span>
+            </div>
+            <div class="search">Search items to trade...</div>
+            <div class="item-card">
+              <div class="thumb"></div>
+              <div class="item-title">Parker Pen</div>
+              <div class="item-meta">Brand: Parker • Condition: Used – Excellent</div>
+              <div class="item-meta">Estimated trade value: JOD 10</div>
+              <div class="swap-box">
+                <span>Wants: Wallet</span>
+                <span>↔</span>
+              </div>
+              <div class="tagrow">
+                <span class="tag">No cash</span>
+                <span class="tag">Delivery only</span>
+                <span class="tag">Verified photos</span>
+              </div>
+            </div>
+            <div class="item-card">
+              <div class="item-title">Suggested trade match</div>
+              <div class="item-meta">Leather wallet • Used – Good • Similar value</div>
+              <div class="swap-box">
+                <span>Offer item trade</span>
+                <span>92% match</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Listing fields</h3>
+          <div class="wide-table">
+            <table>
+              <tbody>
+                <tr><th>Field</th><td>Example</td></tr>
+                <tr><th>Item</th><td>Parker pen</td></tr>
+                <tr><th>Category</th><td>Stationery / Accessories</td></tr>
+                <tr><th>Brand</th><td>Parker</td></tr>
+                <tr><th>Condition</th><td>Used – Excellent</td></tr>
+                <tr><th>Estimated value</th><td>JOD 10, used only for matching fairness, not selling</td></tr>
+                <tr><th>Wanted trade</th><td>Wallet, notebook, small accessory</td></tr>
+                <tr><th>Allowed deal</th><td>Item vs item only</td></tr>
+                <tr><th>Delivery</th><td>Handled exclusively by Qeema Swap</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="delivery">
+      <div class="section-head">
+        <div>
+          <h2>Exclusive delivery model</h2>
+          <p>This is the biggest differentiator. It improves safety, but it also increases operational responsibility.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <span class="pill good">Recommended at launch</span>
+          <h3>Start in Amman only</h3>
+          <p>Launch inside Amman first to control delivery costs, reduce failed pickups, and learn the operational flow.</p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Operational need</span>
+          <h3>Two-sided pickup</h3>
+          <p>Every trade needs pickup from both users, basic check, and delivery to both users. This makes routing important.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Trust feature</span>
+          <h3>Inspection checkpoint</h3>
+          <p>Delivery staff should upload item photos and condition notes before delivery is completed.</p>
+        </div>
+      </div>
+
+      <div class="wide-table" style="margin-top:18px;">
+        <table>
+          <thead><tr><th>Delivery option</th><th>How it works</th><th>Recommended fee</th><th>Best use</th></tr></thead>
+          <tbody>
+            <tr><td>Standard swap delivery</td><td>Pickup from both users and deliver within 24–72 hours</td><td>JOD 2–4 per user</td><td>Low/medium-value items</td></tr>
+            <tr><td>Protected swap</td><td>Includes inspection photos, support priority, and dispute handling</td><td>JOD 4–7 per user</td><td>Electronics, branded items, higher value</td></tr>
+            <tr><td>Bundle delivery</td><td>Multiple small items in one trade</td><td>JOD 3–6 per user</td><td>Books, baby items, accessories</td></tr>
+            <tr><td>Return delivery</td><td>If inspection fails or user rejects valid issue</td><td>Paid by responsible side</td><td>Dispute control</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="profit">
+      <div class="section-head">
+        <div>
+          <h2>How to profit without selling or cash deals</h2>
+          <p>The business model should monetize safety, convenience, visibility, and trust.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-4">
+        <div class="card">
+          <div class="metric">1</div>
+          <h3>Delivery fee</h3>
+          <p>Core revenue because every trade must use your delivery service.</p>
+        </div>
+        <div class="card">
+          <div class="metric">2</div>
+          <h3>Protection fee</h3>
+          <p>Optional paid layer for inspection photos, support, and return handling.</p>
+        </div>
+        <div class="card">
+          <div class="metric">3</div>
+          <h3>Featured listings</h3>
+          <p>Users pay to boost an item and receive more trade offers.</p>
+        </div>
+        <div class="card">
+          <div class="metric">4</div>
+          <h3>Subscription</h3>
+          <p>Power users get more listings, auto-bumps, analytics, and verified badge.</p>
+        </div>
+      </div>
+
+      <div class="wide-table" style="margin-top:18px;">
+        <table>
+          <thead><tr><th>Revenue stream</th><th>Launch timing</th><th>Suggested price</th><th>Comment</th></tr></thead>
+          <tbody>
+            <tr><td>Delivery fee</td><td>Day one</td><td>JOD 2–4 per user per trade</td><td>Main monetization pillar</td></tr>
+            <tr><td>Protected swap fee</td><td>Day one or month 2</td><td>JOD 1–3 extra per user</td><td>Creates trust and support budget</td></tr>
+            <tr><td>Featured listing boost</td><td>After traffic starts</td><td>JOD 1–3 per boost</td><td>High-margin digital revenue</td></tr>
+            <tr><td>Premium trader plan</td><td>After 500–1,000 active users</td><td>JOD 5–10/month</td><td>For frequent traders</td></tr>
+            <tr><td>Brand/category sponsorship</td><td>Phase 2</td><td>Custom packages</td><td>Example: baby products, gaming, electronics</td></tr>
+            <tr><td>Ads</td><td>Later only</td><td>CPM/CPC basis</td><td>Do not overuse early because it can reduce trust</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="cost">
+      <div class="section-head">
+        <div>
+          <h2>Minimal estimated cost</h2>
+          <p>Because delivery is now exclusive from your side, the MVP needs delivery booking and admin logistics from the beginning.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card highlight">
+          <span class="pill good">Bare minimum</span>
+          <h3>USD 10k–18k</h3>
+          <p>Approx. JOD 7.1k–12.8k. Cross-platform app, basic listings, offers, chat, delivery booking, admin panel.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Better MVP</span>
+          <h3>USD 18k–35k</h3>
+          <p>Approx. JOD 12.8k–24.9k. Better UX, bilingual polish, ratings, routing dashboard, stronger moderation.</p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Avoid first</span>
+          <h3>USD 35k+</h3>
+          <p>Advanced matching AI, warehouse hub, complex dispute automation, full routing optimization.</p>
+        </div>
+      </div>
+
+      <div class="wide-table" style="margin-top:18px;">
+        <table>
+          <thead><tr><th>Cost item</th><th>Minimal estimate</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>UI/UX design</td><td>USD 1,000–2,500</td><td>Mobile-first bilingual screens and clickable prototype</td></tr>
+            <tr><td>Mobile app development</td><td>USD 5,000–10,000</td><td>Flutter or React Native for Android and iOS</td></tr>
+            <tr><td>Backend + database</td><td>USD 2,000–4,000</td><td>Firebase/Supabase, user accounts, listings, offers, chat</td></tr>
+            <tr><td>Admin panel</td><td>USD 1,500–4,000</td><td>Moderation, delivery management, trade status</td></tr>
+            <tr><td>Delivery module</td><td>USD 1,500–4,000</td><td>Pickup windows, delivery status, driver notes/photos</td></tr>
+            <tr><td>Testing and launch</td><td>USD 1,000–2,500</td><td>QA, app store setup, bug fixing</td></tr>
+            <tr><td>Monthly technical running cost</td><td>USD 50–300</td><td>Hosting, images, notifications, maps, SMS if used</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="notice" style="margin-top:18px;">
+        <strong>Cost-control recommendation:</strong> use email login first and make mobile OTP optional or risk-based, because SMS verification can become expensive if every signup requires it.
+      </div>
+    </section>
+
+    <section id="marketing">
+      <div class="section-head">
+        <div>
+          <h2>Launch marketing budget</h2>
+          <p>Start with a tight pilot, prove trade activity, then scale.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <span class="pill good">Lean pilot</span>
+          <h3>JOD 2,000–4,000</h3>
+          <p>90-day Amman pilot focused on creators, referral offers, and targeted social ads.</p>
+        </div>
+        <div class="card">
+          <span class="pill">Stronger launch</span>
+          <h3>JOD 5,000–8,000</h3>
+          <p>Influencers, paid ads, short videos, launch offers, and category-specific campaigns.</p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Scale only after proof</span>
+          <h3>JOD 10,000+</h3>
+          <p>Use only after you prove successful trades, retention, and repeat usage.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <h3>Best launch categories</h3>
+        <div class="tagrow">
+          <span class="tag">Phones & accessories</span>
+          <span class="tag">Gaming</span>
+          <span class="tag">Baby & kids</span>
+          <span class="tag">Books</span>
+          <span class="tag">Small home items</span>
+          <span class="tag">Sports gear</span>
+          <span class="tag">Fashion accessories</span>
+        </div>
+        <p style="margin-top:14px;">Avoid launching with too many categories. Start where visual condition is easy to check and delivery is manageable.</p>
+      </div>
+    </section>
+
+    <section id="risks">
+      <div class="section-head">
+        <div>
+          <h2>Pros, cons, and risks</h2>
+          <p>The trade-only + controlled delivery model is safer, but it needs strong operations.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <span class="pill good">Pros</span>
+          <ul class="list">
+            <li>Clear differentiation from OpenSooq, dubizzle, and Facebook Marketplace.</li>
+            <li>Safer user experience because users never meet each other.</li>
+            <li>Delivery becomes a natural revenue stream.</li>
+            <li>Item-only trade can support sustainability and reuse positioning.</li>
+            <li>Platform has stronger control over completed trades and ratings.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="pill danger">Cons / risks</span>
+          <ul class="list">
+            <li>Matching is harder without cash top-ups.</li>
+            <li>Delivery operations can become costly if routes are inefficient.</li>
+            <li>Disputes may increase if item condition is not checked well.</li>
+            <li>Low-value items may not justify delivery cost.</li>
+            <li>Restricted/prohibited items need strong moderation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="wide-table" style="margin-top:18px;">
+        <table>
+          <thead><tr><th>Risk</th><th>Impact</th><th>Practical solution</th></tr></thead>
+          <tbody>
+            <tr><td>Unfair value exchange</td><td>Users reject trades</td><td>Estimated value range, match score, bundle trades</td></tr>
+            <tr><td>Fake or damaged items</td><td>Disputes and low trust</td><td>Mandatory photos, inspection checkpoint, ratings</td></tr>
+            <tr><td>Delivery cost too high</td><td>Weak profitability</td><td>Start in Amman, cluster deliveries, minimum item value</td></tr>
+            <tr><td>Off-platform leakage</td><td>Lost revenue and less safety</td><td>Block phone sharing, require delivery booking for completion</td></tr>
+            <tr><td>Restricted goods</td><td>Legal/compliance risk</td><td>Prohibited categories, keyword filters, admin approval</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <div class="section-head">
+        <div>
+          <h2>Recommended roadmap</h2>
+          <p>A phased launch reduces cost and keeps operations under control.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <span class="pill">Phase 1</span>
+          <h3>Prototype + validation</h3>
+          <p>Landing page, brand identity, clickable app prototype, 30–50 user interviews, and category testing.</p>
+        </div>
+        <div class="card">
+          <span class="pill good">Phase 2</span>
+          <h3>Amman MVP</h3>
+          <p>Launch with 5–7 categories, controlled delivery, simple trade flow, and manual admin support.</p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Phase 3</span>
+          <h3>Scale</h3>
+          <p>Add stronger verification, optimized delivery routes, subscriptions, category sponsors, and more cities.</p>
+        </div>
+      </div>
+
+      <div class="success" style="margin-top:18px;">
+        <strong>Best MVP success metric:</strong> not downloads. Track successful completed trades, repeat traders, average delivery margin, dispute rate, and offer-to-trade conversion.
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="section-head">
+        <div>
+          <h2>Reference basis</h2>
+          <p>This HTML was adapted from the earlier app analysis and revised to remove selling/cash and add exclusive delivery.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Key source themes used</h3>
+        <ul class="list">
+          <li>Jordan digital adoption and social media reach: DataReportal Digital 2025 Jordan.</li>
+          <li>Jordan payment rails and digital payments: JOPACC payment systems reports.</li>
+          <li>Payments and consumer protection: Central Bank of Jordan publications.</li>
+          <li>Personal data protection: Jordan Personal Data Protection Law No. 24 of 2023, MoDEE.</li>
+          <li>Marketplace feature benchmarks: Mercari, Carousell, OfferUp, dubizzle, OpenSooq.</li>
+          <li>Development cost benchmarks: Clutch and Upwork mobile app development cost references.</li>
+        </ul>
+        <p class="mini" style="margin-top:14px;">
+          Note: Final commercial launch should include legal review for prohibited items, delivery liability, privacy policy, terms of use,
+          and whether your delivery operation requires any additional local permits or partnerships.
+        </p>
+      </div>
+    </section>
+
+    <section class="rtl">
+      <div class="card">
+        <h2 style="margin-top:0">الملخص بالعربي</h2>
+        <p>
+          التطبيق المقترح هو منصة أردنية للتبادل فقط، بحيث يعرض المستخدم غرضاً لا يحتاجه،
+          ويستقبل عروضاً من مستخدمين آخرين بغرض مقابل غرض. لا يوجد بيع، ولا دفع نقدي بين المستخدمين،
+          ولا لقاء مباشر بينهم. التوصيل والاستلام يكون حصرياً من طرفكم، وهذا يعطي التطبيق ميزة أمان وثقة
+          ويخلق مصدر دخل واضح من رسوم التوصيل والحماية والاشتراكات والإعلانات المدروسة.
+        </p>
+        <p>
+          أنسب إطلاق أولي يكون داخل عمّان فقط، وبفئات محددة مثل الموبايلات والإكسسوارات، الألعاب،
+          مستلزمات الأطفال، الكتب، والأغراض المنزلية الصغيرة. أهم مؤشرات النجاح هي عدد التبادلات المكتملة،
+          نسبة تكرار المستخدمين، هامش ربح التوصيل، ونسبة الشكاوى.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      Prepared as a practical MVP concept for Qeema Swap. Generated for planning purposes; figures are estimates and should be validated with vendors, legal counsel, and delivery partners before launch.
+    </footer>
+  </main>
+
+  <script>
+    function showTab(id){
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>
